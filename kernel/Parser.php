@@ -8,18 +8,19 @@ class Avito {
 
     function dataUpdate()
     {
+        //Ставим счетчик на время выполнения
         $time_start = microtime(1);
         global $avitoResult;
         global $setting;
         $city = 'serpuhov';
-        foreach ($setting['category'] as $param)
+        foreach ($setting['category'] as $param) //Приводим настройки категорий к виду, как на авито
         {
             if ($param == 'apartments')
                 $category[] = 'kvartiry';
             else if ($param == 'gringo')
                 $category[] = 'nedvizhimost_za_rubezhom';
         }
-        foreach ($setting['type'] as $param)
+        foreach ($setting['type'] as $param) //Приводим настройки типа сделок к виду, как на авито
         {
             if ($param == 'buy')
                 $type[] = 'kuplyu';
@@ -36,7 +37,7 @@ class Avito {
                 if (@fopen($this->getRoot().$city.'/'.$cat.'/'.$item,'r')) //Проверяем, существует ли ссылка
                 {
                     $html = new simple_html_dom($this->getRoot().$city.'/'.$cat.'/'.$item);
-                    foreach ($html->find('div.j-catalog-item-enum') as $block)
+                    foreach ($html->find('div.j-catalog-item-enum') as $block) //Перебираем объявления
                     {
                         $detailPageURL = $block->find("div.description h3.title a",0)->getAttribute('href');
                         $ads['id'] = $block->getAttribute('id');
@@ -92,9 +93,13 @@ class Avito {
             }
         }
 
+        //Отдаем массив объявлений в базу
         DB::insert('main',$avitoResult);
+
+        //Считаем время на выполнение
         $time_end = microtime(1);
         $time = intval($time_end - $time_start);
+
         echo('Базы обновлены ');
         echo('<small>База обновились за '.$time.' cекунд</small>');
 

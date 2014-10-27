@@ -10,12 +10,6 @@ require_once($_SERVER['DOCUMENT_ROOT']."/assets/header.php");
             <div class="row">
                 <div id="parseResult" class="col-sm-12">
                     <h1 class="text-center">База</h1>
-                    <?
-                    //Временно выводим парс сюда
-                    include('kernel/Parser.php');
-                    global $avitoResult;
-                    global $viewTable;
-                    ?>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
@@ -39,22 +33,23 @@ require_once($_SERVER['DOCUMENT_ROOT']."/assets/header.php");
                                 </td>
                             </tr>
                             <?
-                            DB::getTable('main');
+                            include('kernel/Parser.php');
+                            global $viewTable;
+                            DB::getTable('main'); //Получаем таблицу
                             foreach($viewTable as $ads)
-                            {
-                            ?>
+                            { ?>
                                 <tr>
                                     <td>
                                         <?=$ads[0]?>
                                     </td>
                                     <td>
-                                        <?=$ads[1];?>
+                                        <?=$ads[1]?>
                                     </td>
                                     <td>
-                                        <?=$ads[2];?>
+                                        <?=$ads[2]?>
                                     </td>
                                     <td>
-                                        <?=$ads[3];?>
+                                        <?=$ads[3]?>
                                     </td>
                                     <td>
                                         <?=$ads[4]?>
@@ -75,7 +70,6 @@ require_once($_SERVER['DOCUMENT_ROOT']."/assets/header.php");
                                         <?=$ads[9]?>
                                     </td>
                                 </tr>
-
                             <?
                             } //end foreach
                             ?>

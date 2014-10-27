@@ -2,6 +2,7 @@
 require_once($_SERVER['DOCUMENT_ROOT']."/configs/dbconf.php"); //Получаем настройки
 
 class DB {
+    //Для добавления записей
     function insert($table, $ads){
         global $dbconf;
         $dba = mysqli_connect($dbconf['host'],$dbconf['user'],$dbconf['password'], $dbconf['database']);
@@ -25,7 +26,7 @@ class DB {
             $date = $item['date'];
             $link = $item['link'];
 
-            $sql = "REPLACE INTO main (SITE, ID_SITE, REAL_ESTATE, TYPE, TITLE, DESCRIPTION, SQUARE, SELLER, TEL, PRICE, DATE, LINK) VALUES (
+            $sql = "REPLACE INTO $table (SITE, ID_SITE, REAL_ESTATE, TYPE, TITLE, DESCRIPTION, SQUARE, SELLER, TEL, PRICE, DATE, LINK) VALUES (
             'Авито',
             '$siteID',
             '$real_estate',
@@ -43,6 +44,7 @@ class DB {
 
         }
     }
+    //Для получения записей
     function getTable($table) {
         global $dbconf;
         $dba = mysqli_connect($dbconf['host'],$dbconf['user'],$dbconf['password'], $dbconf['database']);
@@ -52,7 +54,7 @@ class DB {
         }
         mysqli_query($dba, "SET NAMES ".$dbconf['charset']);
 
-        $sql = "SELECT REAL_ESTATE, TYPE, TITLE, DESCRIPTION, SQUARE, SELLER, TEL, PRICE, DATE, LINK FROM main";
+        $sql = "SELECT REAL_ESTATE, TYPE, TITLE, DESCRIPTION, SQUARE, SELLER, TEL, PRICE, DATE, LINK FROM $table";
         if ($result = mysqli_query($dba, $sql))
         {
             global $viewTable;
